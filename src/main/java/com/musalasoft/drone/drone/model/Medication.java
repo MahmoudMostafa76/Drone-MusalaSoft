@@ -5,16 +5,15 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Entity;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
 @Entity(name = "MEDICATION")
+@AllArgsConstructor
 public class Medication extends PayloadBase {
 
-  Medication() {
-    setPayloadType(PayloadType.MEDICATION);
 
-  }
 
   @NotBlank
   @Pattern(regexp = "^[a-zA-Z0-9_-]+$",
@@ -33,6 +32,10 @@ public class Medication extends PayloadBase {
 
   @Schema(description = "Image URL or base64 representation of the payload", example = "string")
   private String image;
+
+  public Medication() {
+    setPayloadType(PayloadType.MEDICATION);
+  }
 
 
   @Override

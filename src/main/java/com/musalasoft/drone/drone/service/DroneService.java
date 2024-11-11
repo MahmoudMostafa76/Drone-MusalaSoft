@@ -104,7 +104,7 @@ public class DroneService {
 
   public BatteryLevelResponse getDroneBatteryLevel(Long droneId) {
     Drone drone = droneRepository.findById(droneId)
-        .orElseThrow(() -> new RuntimeException("Drone not found"));
+        .orElseThrow(() -> new DroneNotFoundException("Drone not found"));
 
     return new BatteryLevelResponse(drone.getBatteryCapacity());
   }
