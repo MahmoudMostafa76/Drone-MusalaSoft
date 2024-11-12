@@ -23,6 +23,9 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 public class DroneService {
 
+  private static final String DRONE_NOT_FOUND_MSG = "Drone with ID: %d not found"; // Message
+                                                                                   // template
+
   private final DroneRepository droneRepository;
   private final BatteryAuditRepository batteryAuditRepository;
 
@@ -73,7 +76,7 @@ public class DroneService {
   public Drone loadDroneWithMedication(Long droneId, List<PayloadBase> medications) {
     log.info("Loading drone with ID: {} with medications", droneId);
     Drone drone = droneRepository.findById(droneId)
-        .orElseThrow(() -> new DroneNotFoundException("Drone not found"));
+        .orElseThrow(() -> new DroneNotFoundException(String.format(DRONE_NOT_FOUND_MSG, droneId)));
     return loadDrone(medications, drone);
   }
 
@@ -135,7 +138,7 @@ public class DroneService {
   public List<PayloadBase> getLoadedMedications(Long droneId) {
     log.info("Getting loaded medications for drone with ID: {}", droneId);
     Drone drone = droneRepository.findById(droneId)
-        .orElseThrow(() -> new DroneNotFoundException("Drone not found"));
+        .orElseThrow(() -> new DroneNotFoundException(String.format(DRONE_NOT_FOUND_MSG, droneId)));
     return drone.getPayloads();
   }
 
@@ -155,7 +158,7 @@ public class DroneService {
   public BatteryLevelResponse getDroneBatteryLevel(Long droneId) {
     log.info("Getting battery level for drone with ID: {}", droneId);
     Drone drone = droneRepository.findById(droneId)
-        .orElseThrow(() -> new DroneNotFoundException("Drone not found"));
+        .orElseThrow(() -> new DroneNotFoundException(String.format(DRONE_NOT_FOUND_MSG, droneId)));
     return new BatteryLevelResponse(drone.getBatteryCapacity());
   }
 }
